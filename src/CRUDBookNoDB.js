@@ -24,19 +24,19 @@ let books = [
 ];
 
 //route to get all book
-app.get('/books', (req,res) => {
+app.get('/books', (req, res) => {
     res.json(books);
 });
 
 //route to get a book by id
-app.get('/books/:id',(req, res) => {
+app.get('/books/:id', (req, res) => {
     const book = books.find(b => b.id === parseInt(req.params.id));
     if (!book) res.status(404).send('Book not found');
     res.json(book);
 });
 
 //route to create a new book
-app.post('/books',(req, res) => {
+app.post('/books', (req, res) => {
     const book = {
         id: books.length + 1,
         title: req.body.title,
@@ -65,4 +65,6 @@ app.delete('/books/:id', (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+app.listen(port, () => {
+    app.listen(port, () => console.log(`Listening on port ${port}...`));
+  });
