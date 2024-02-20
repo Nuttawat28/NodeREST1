@@ -1,10 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body=parser");
+const bodyParser = require("body-parser");
 
 //Database connec
 mongoose.connect(
-    "mongodb://admin:webadmin:ATZtoi85316@node58294-noderestnuttawat.proen.app.ruk-com.cloud:11756",
+    "mongodb://admin:MPDhai27715@node58293-noderestnuttawat.proen.app.ruk-com.cloud:11777",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -22,7 +22,7 @@ const Book = mongoose.model("Book", {
 });
 
 const app = express();
-app,use(bodyParser.json());
+app.use(bodyParser.json());
 
 //Create
 app.post("/books", async (req, res) => {
@@ -47,6 +47,16 @@ app.post("/books", async (req, res) => {
 //read all
 app.get("/books", async (req, res) => {
     try {
+        const book = await Book.find();
+        res.send(books);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+//read one
+app.get("/books", async (req, res) => {
+    try {
         const book = await Book.findOne({id:req.params.id});
         res.send(book);
     } catch (error) {
@@ -60,6 +70,16 @@ app.put("/books/:id", async (req, res) => {
         const book = await Book.findOneAndUpdate({id:req.params.id}, req.body, {
             new: true,
         });
+        res.send(book);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+//delete
+app.delete("/books/:id", async (req, res) => {
+    try {
+        const book = await Book.findOneAndDelete({id:req.params.id}); 
         res.send(book);
     } catch (error) {
         res.status(500).send(error);
